@@ -1,9 +1,9 @@
 # Silent Bell — Simple Overview
 
-**One line:** A campus can take serious reports without knowing *who* filed — but still knowing the reporter is a real student on this semester’s roll.
+**One line:** A campus can take serious reports without knowing _who_ filed — but still knowing the reporter is a real student on this semester’s roll.
 
 **Hackathon:** Brainwave 2026 · Midnight Track  
-**Tagline:** *The report that cannot be traced. The student who cannot be faked.*
+**Tagline:** _The report that cannot be traced. The student who cannot be faked._
 
 ---
 
@@ -13,9 +13,9 @@ Campuses need students to report harassment, discrimination, hostel abuse, etc.
 
 Today students usually get two bad options:
 
-| Option | What goes wrong |
-|--------|------------------|
-| **Named complaint** | Fear of retaliation. Juniors stay silent. |
+| Option                    | What goes wrong                                                          |
+| ------------------------- | ------------------------------------------------------------------------ |
+| **Named complaint**       | Fear of retaliation. Juniors stay silent.                                |
 | **Anonymous Google Form** | Anyone can spam. Committee can’t trust it. Fake reports drown real ones. |
 
 So the real problem is:
@@ -113,10 +113,10 @@ Silent Bell has **two rails** and a clear trust split.
 
 ### What stays private vs public (Boundary)
 
-| On this device | On the ledger |
-|----------------|---------------|
-| Student secret, report text | Membership proved, category, nullifier, commitment |
-| Committee decrypt key (after unlock) | Named handle **only** if student opted in |
+| On this device                       | On the ledger                                      |
+| ------------------------------------ | -------------------------------------------------- |
+| Student secret, report text          | Membership proved, category, nullifier, commitment |
+| Committee decrypt key (after unlock) | Named handle **only** if student opted in          |
 
 ---
 
@@ -142,12 +142,12 @@ Silent Bell has **two rails** and a clear trust split.
 
 **Demo personas:**
 
-| Persona | Role |
-|---------|------|
-| **Asha** | Fresher on the roll — silent + named success |
-| **Meera** | Student on the roll |
-| **Ravi** | Outsider — **must fail** |
-| **Dr. Mehta** | Committee — reads inbox, does not file |
+| Persona       | Role                                         |
+| ------------- | -------------------------------------------- |
+| **Asha**      | Fresher on the roll — silent + named success |
+| **Meera**     | Student on the roll                          |
+| **Ravi**      | Outsider — **must fail**                     |
+| **Dr. Mehta** | Committee — reads inbox, does not file       |
 
 **Students can:**
 
@@ -222,12 +222,12 @@ Open: **http://localhost:5173/**
 
 ### Demo accounts
 
-| Role | Email | Password |
-|------|-------|----------|
+| Role      | Email                | Password             |
+| --------- | -------------------- | -------------------- |
 | Registrar | registrar@campus.edu | SilentBell!Registrar |
-| Student | asha@campus.edu | SilentBell!Student |
-| Student | meera@campus.edu | SilentBell!Student |
-| Outsider | ravi@outsider.test | SilentBell!Outsider |
+| Student   | asha@campus.edu      | SilentBell!Student   |
+| Student   | meera@campus.edu     | SilentBell!Student   |
+| Outsider  | ravi@outsider.test   | SilentBell!Outsider  |
 | Committee | committee@campus.edu | SilentBell!Committee |
 
 **Committee decrypt passphrase:** `silentbell-committee-pilot-v1`  

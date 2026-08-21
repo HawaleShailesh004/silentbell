@@ -35,7 +35,9 @@ export function Reveal({
     return () => io.disconnect();
   }, []);
 
-  const style = delay ? ({ "--reveal-delay": `${delay}ms` } as CSSProperties) : undefined;
+  const style = delay
+    ? ({ "--reveal-delay": `${delay}ms` } as CSSProperties)
+    : undefined;
 
   return (
     <Tag ref={ref} className={`reveal ${className}`.trim()} style={style}>

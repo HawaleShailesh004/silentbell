@@ -1,6 +1,6 @@
 # Silent Bell — live presentation script (~3–4 min)
 
-**Goal:** Judges feel a *product*, not a circuit tour. Problem → trap → Midnight fit → live proof → institutional next step.
+**Goal:** Judges feel a _product_, not a circuit tour. Problem → trap → Midnight fit → live proof → institutional next step.
 
 ---
 
@@ -23,27 +23,27 @@ Open `http://localhost:5173/`. Hard refresh. Optional: run **Live cast** once be
 
 ### 0. Open (15s) — brand on screen
 
-*[Landing hero visible]*
+_[Landing hero visible]_
 
-> “This is **Silent Bell**. Tagline: *the report that cannot be traced; the student who cannot be faked.*  
+> “This is **Silent Bell**. Tagline: _the report that cannot be traced; the student who cannot be faked._  
 > Campuses need serious reports. Students won’t file if they fear retaliation. Forms that accept anyone drown real harm in spam.”
 
 ### 1. The trap (20s)
 
-*[Scroll to “The trap”]*
+_[Scroll to “The trap”]_
 
 > “Named complaint → juniors stay silent. Anonymous form → outsiders spam.  
 > The real question: prove someone is **on this semester’s roll** without revealing **which** student—and without letting outsiders flood the inbox.”
 
 ### 2. Why Midnight (20s)
 
-*[Scroll to solution / trust boundary]*
+_[Scroll to solution / trust boundary]_
 
 > “That’s Midnight’s job: **selective disclosure**. Compact proves membership. The ledger never learns the leaf. The story is sealed off-chain for the committee only. Nullifiers stop the same student from flooding one category in one semester.”
 
 ### 3. Live cast (90–120s) — do not narrate every button
 
-*[Open Live cast → Run full demo cast]*
+_[Open Live cast → Run full demo cast]_
 
 While it runs:
 
@@ -70,7 +70,8 @@ Sign in `committee@campus.edu` → unlock passphrase → decrypt.
 
 > “Committee reads the **case**, not the silent identity. Export for their process—still no leaf on chain.”
 
-**C — Explorer**  
+**C — Explorer**
+
 > “Public accountability without voyeurism: counts and epoch only.”
 
 ### 5. Close (25s)
