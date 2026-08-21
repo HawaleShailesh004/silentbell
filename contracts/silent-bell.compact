@@ -1,0 +1,110 @@
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+// Silent Bell — enrolment membership without identity, anti-hoax nullifiers.
+// Depth 4 = 16 students. Inserts are visible; which member filed is not.
+
+export enum Rail { silent, named }
+
+export struct ReportMeta {
+  category: Uint<8>;
+  rail: Uint<8>;
+  namedHandle: Bytes<32>;
+  commitment: Bytes<32>;
+}
+
+export sealed ledger adminPk: Bytes<32>;
+export ledger epoch: Uint<32>;
+export ledger roster: HistoricMerkleTree<4, Bytes<32>>;
+export ledger reportNullifiers: Set<Bytes<32>>;
+export ledger reports: Map<Bytes<32>, ReportMeta>;
+export ledger silentCount: Counter;
+export ledger namedCount: Counter;
+
+witness local_secret_key(): Bytes<32>;
+witness getRosterPath(leaf: Bytes<32>): MerkleTreePath<4, Bytes<32>>;
+
+circuit derivePk(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "silentbell:pk:"),
+    sk
+  ]);
+}
+
+circuit deriveNullifier(sk: Bytes<32>, ep: Uint<32>, category: Uint<8>): Bytes<32> {
+  return persistentHash<Vector<4, Bytes<32>>>([
+    pad(32, "silentbell:report:v1"),
+    sk,
+    ep as Field as Bytes<32>,
+    category as Field as Bytes<32>
+  ]);
+}
+
+circuit requireAdmin(): [] {
+  const sk = local_secret_key();
+  const callerPk = derivePk(sk);
+  assert(disclose(callerPk == adminPk), "Not registrar");
+}
+
+constructor() {
+  const sk = local_secret_key();
+  adminPk = disclose(derivePk(sk));
+  epoch = 1;
+}
+
+export circuit setEpoch(next: Uint<32>): [] {
+  requireAdmin();
+  epoch = disclose(next);
+}
+
+export circuit enrol(studentPk: Bytes<32>): [] {
+  requireAdmin();
+  roster.insert(disclose(studentPk));
+}
+
+export circuit fileSilent(category: Uint<8>, commitment: Bytes<32>): [] {
+  assert(disclose(category) < 4, "Unknown category");
+
+  const sk = local_secret_key();
+  const pk = derivePk(sk);
+  const path = getRosterPath(pk);
+  const root = merkleTreePathRoot<4, Bytes<32>>(path);
+  assert(roster.checkRoot(disclose(root)), "Not on the roll");
+
+  const nf = deriveNullifier(sk, epoch, category);
+  assert(disclose(!reportNullifiers.member(disclose(nf))), "Already rang this category");
+  reportNullifiers.insert(disclose(nf));
+
+  const meta = ReportMeta {
+    category: disclose(category),
+    rail: 0,
+    namedHandle: pad(32, ""),
+    commitment: disclose(commitment)
+  };
+  reports.insert(disclose(commitment), meta);
+  silentCount.increment(1);
+}
+
+export circuit fileNamed(category: Uint<8>, commitment: Bytes<32>, handle: Bytes<32>): [] {
+  assert(disclose(category) < 4, "Unknown category");
+
+  const sk = local_secret_key();
+  const pk = derivePk(sk);
+  const path = getRosterPath(pk);
+  const root = merkleTreePathRoot<4, Bytes<32>>(path);
+  assert(roster.checkRoot(disclose(root)), "Not on the roll");
+
+  const nf = deriveNullifier(sk, epoch, category);
+  assert(disclose(!reportNullifiers.member(disclose(nf))), "Already rang this category");
+  reportNullifiers.insert(disclose(nf));
+
+  const meta = ReportMeta {
+    category: disclose(category),
+    rail: 1,
+    namedHandle: disclose(handle),
+    commitment: disclose(commitment)
+  };
+  reports.insert(disclose(commitment), meta);
+  namedCount.increment(1);
+}
