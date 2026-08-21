@@ -1,0 +1,28 @@
+import type { SVGProps } from "react";
+
+/** Brand mark — muted campus bell (matches favicon). */
+export function BrandIcon({ className, ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M32 6c-2.4 0-4.4 2-4.4 4.4v4.2C18.4 17 12 25.2 12 35.2V44c0 1.8-1.5 3.1-3.2 3.8L6.4 49V54h51.2v-5l-2.4-1.2c-1.7-0.7-3.2-2-3.2-3.8v-8.8c0-10-6.4-18.2-15.6-20.6V10.4C41.4 8 39.4 6 37 6H32z"
+      />
+      <path fill="currentColor" d="M26 54h12c0 5-2.7 9-6 9s-6-4-6-9z" opacity="0.88" />
+      <circle cx="32" cy="9" r="3" fill="#c9a227" />
+      <path
+        stroke="#c9a227"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        d="M41.5 20.5l7 7M48.5 20.5l-7 7"
+      />
+    </svg>
+  );
+}
