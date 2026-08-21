@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-label="Silent Bell trust boundary">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f2f5f2"/>
+      <stop offset="100%" stop-color="#e4ebe6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="640" fill="url(#g)"/>
+  <text x="60" y="70" font-family="Georgia, serif" font-size="34" fill="#0b1220">Trust boundary</text>
+  <text x="60" y="108" font-family="Segoe UI, sans-serif" font-size="18" fill="#4a5a68">What stays private · what Midnight may learn</text>
+
+  <rect x="60" y="160" width="520" height="400" rx="16" fill="#12261f"/>
+  <text x="320" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#ffffff">Never on the ledger</text>
+  <text x="120" y="280" font-family="Segoe UI, sans-serif" font-size="20" fill="#d5e4dc">• Student secret / which leaf</text>
+  <text x="120" y="330" font-family="Segoe UI, sans-serif" font-size="20" fill="#d5e4dc">• Incident story (plaintext)</text>
+  <text x="120" y="380" font-family="Segoe UI, sans-serif" font-size="20" fill="#d5e4dc">• Committee decryption key</text>
+  <text x="120" y="430" font-family="Segoe UI, sans-serif" font-size="20" fill="#d5e4dc">• Roll numbers and names</text>
+  <text x="120" y="500" font-family="Segoe UI, sans-serif" font-size="16" fill="#8a9e94">Sealed off-chain for committee unlock</text>
+
+  <rect x="620" y="160" width="520" height="400" rx="16" fill="#ffffff" stroke="#1a5c4a" stroke-width="2.5"/>
+  <text x="880" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#0b1220">On the ledger</text>
+  <text x="680" y="280" font-family="Segoe UI, sans-serif" font-size="20" fill="#1c2738">• Enrolment membership (yes)</text>
+  <text x="680" y="330" font-family="Segoe UI, sans-serif" font-size="20" fill="#1c2738">• Category</text>
+  <text x="680" y="380" font-family="Segoe UI, sans-serif" font-size="20" fill="#1c2738">• Nullifier (anti-hoax)</text>
+  <text x="680" y="430" font-family="Segoe UI, sans-serif" font-size="20" fill="#1c2738">• Commitment (not the story)</text>
+  <text x="680" y="480" font-family="Segoe UI, sans-serif" font-size="20" fill="#1c2738">• Named handle (optional rail)</text>
+  <text x="680" y="540" font-family="Segoe UI, sans-serif" font-size="16" fill="#4a5a68">Which student — never</text>
+</svg>

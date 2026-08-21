@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Silent Bell architecture">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eef3ef"/>
+      <stop offset="100%" stop-color="#dce4df"/>
+    </linearGradient>
+    <linearGradient id="priv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#12261f"/>
+      <stop offset="100%" stop-color="#0b1714"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <text x="60" y="72" font-family="Georgia, serif" font-size="36" fill="#0b1220">Silent Bell — architecture</text>
+  <text x="60" y="108" font-family="Segoe UI, sans-serif" font-size="18" fill="#4a5a68">Campus roles → Compact proofs → sealed committee path</text>
+
+  <!-- Roles -->
+  <rect x="60" y="160" width="200" height="88" rx="10" fill="#ffffff" stroke="#1a5c4a" stroke-width="2"/>
+  <text x="160" y="198" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600" fill="#0b1220">Registrar</text>
+  <text x="160" y="226" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">CSV → enrol</text>
+
+  <rect x="60" y="280" width="200" height="88" rx="10" fill="#ffffff" stroke="#1a5c4a" stroke-width="2"/>
+  <text x="160" y="318" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600" fill="#0b1220">Student</text>
+  <text x="160" y="346" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">silent / named</text>
+
+  <rect x="60" y="400" width="200" height="88" rx="10" fill="#ffffff" stroke="#1a5c4a" stroke-width="2"/>
+  <text x="160" y="438" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600" fill="#0b1220">Committee</text>
+  <text x="160" y="466" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">decrypt · act</text>
+
+  <rect x="60" y="520" width="200" height="88" rx="10" fill="#ffffff" stroke="#8a7340" stroke-width="2"/>
+  <text x="160" y="558" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600" fill="#0b1220">Public</text>
+  <text x="160" y="586" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">explorer counts</text>
+
+  <!-- Arrows to middle -->
+  <path d="M260 204 H340" stroke="#1a5c4a" stroke-width="2" fill="none" marker-end="url(#m)"/>
+  <path d="M260 324 H340" stroke="#1a5c4a" stroke-width="2" fill="none"/>
+  <path d="M260 444 H520" stroke="#1a5c4a" stroke-width="2" fill="none"/>
+  <path d="M260 564 H340" stroke="#8a7340" stroke-width="2" fill="none"/>
+
+  <!-- Web / APIs -->
+  <rect x="340" y="200" width="220" height="120" rx="12" fill="#ffffff" stroke="#0b1220" stroke-width="1.5"/>
+  <text x="450" y="248" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#0b1220">Web UI</text>
+  <text x="450" y="278" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">React · Vite :5173</text>
+
+  <rect x="340" y="360" width="220" height="100" rx="12" fill="#ffffff" stroke="#0b1220" stroke-width="1.5"/>
+  <text x="450" y="405" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#0b1220">Chain API</text>
+  <text x="450" y="432" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">:8789 · Midnight.js</text>
+
+  <rect x="340" y="500" width="220" height="100" rx="12" fill="#ffffff" stroke="#0b1220" stroke-width="1.5"/>
+  <text x="450" y="545" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#0b1220">Blob API</text>
+  <text x="450" y="572" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" fill="#4a5a68">:8788 · sealed cases</text>
+
+  <path d="M560 260 H640" stroke="#1a5c4a" stroke-width="2"/>
+  <path d="M560 410 H640" stroke="#1a5c4a" stroke-width="2"/>
+  <path d="M560 550 H760" stroke="#1a5c4a" stroke-width="2"/>
+
+  <!-- Midnight stack -->
+  <rect x="640" y="180" width="500" height="280" rx="16" fill="#ffffff" stroke="#1a5c4a" stroke-width="2.5"/>
+  <text x="890" y="230" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#0b1220">Midnight stack</text>
+  <rect x="680" y="260" width="200" height="70" rx="8" fill="#e8f4ef" stroke="#1a5c4a"/>
+  <text x="780" y="302" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" fill="#0f3f34">Compact contract</text>
+  <rect x="900" y="260" width="200" height="70" rx="8" fill="#e8f4ef" stroke="#1a5c4a"/>
+  <text x="1000" y="302" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" fill="#0f3f34">proof-server</text>
+  <rect x="680" y="350" width="200" height="70" rx="8" fill="#e8f4ef" stroke="#1a5c4a"/>
+  <text x="780" y="392" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" fill="#0f3f34">node + indexer</text>
+  <rect x="900" y="350" width="200" height="70" rx="8" fill="#e8f4ef" stroke="#1a5c4a"/>
+  <text x="1000" y="392" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" fill="#0f3f34">ledger facts</text>
+
+  <!-- Private sealed -->
+  <rect x="760" y="500" width="380" height="120" rx="14" fill="url(#priv)"/>
+  <text x="950" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#ffffff">Sealed off-chain</text>
+  <text x="950" y="590" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="15" fill="#c9d8d1">X25519 + AES-GCM · never plaintext on ledger</text>
+
+  <text x="60" y="740" font-family="Segoe UI, sans-serif" font-size="15" fill="#4a5a68">enrol · setEpoch · fileSilent · fileNamed · nullifier per epoch×category</text>
+</svg>
