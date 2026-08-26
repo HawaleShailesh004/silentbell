@@ -35,7 +35,9 @@ export function committeeSecretFromPassphrase(passphrase: string): Uint8Array {
 }
 
 export function committeePublicKey(passphrase = COMMITTEE_PASSPHRASE): string {
-  return bytesToHex(x25519.getPublicKey(committeeSecretFromPassphrase(passphrase)));
+  return bytesToHex(
+    x25519.getPublicKey(committeeSecretFromPassphrase(passphrase)),
+  );
 }
 
 function aesKeyFromShared(shared: Uint8Array): Uint8Array {
@@ -49,10 +51,16 @@ export type SealedReport = {
 };
 
 /** Seal report to the committee X25519 pubkey (ephemeral sender). */
-export function encryptReport(plaintext: string, committeePkHex = committeePublicKey()): SealedReport {
+export function encryptReport(
+  plaintext: string,
+  committeePkHex = committeePublicKey(),
+): SealedReport {
   const ephemeralSk = x25519.utils.randomSecretKey();
   const ephemeralPk = x25519.getPublicKey(ephemeralSk);
-  const shared = x25519.getSharedSecret(ephemeralSk, hexToBytes(committeePkHex));
+  const shared = x25519.getSharedSecret(
+    ephemeralSk,
+    hexToBytes(committeePkHex),
+  );
   const key = aesKeyFromShared(shared);
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const cipher = gcm(key, iv);
@@ -77,7 +85,7 @@ export function decryptReport(
     const pt = cipher.decrypt(fromB64(sealed.ciphertext));
     return new TextDecoder().decode(pt);
   } catch {
-    return "(could not decrypt — wrong committee key or corrupt capsule)";
+    return "(could not decrypt - wrong committee key or corrupt capsule)";
   }
 }
 

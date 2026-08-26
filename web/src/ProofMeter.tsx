@@ -9,7 +9,10 @@ export function ProofMeter({ running }: { running: boolean }) {
       return;
     }
     const t0 = Date.now();
-    const id = window.setInterval(() => setSec(Math.floor((Date.now() - t0) / 1000)), 200);
+    const id = window.setInterval(
+      () => setSec(Math.floor((Date.now() - t0) / 1000)),
+      200,
+    );
     return () => window.clearInterval(id);
   }, [running]);
 
@@ -22,13 +25,16 @@ export function ProofMeter({ running }: { running: boolean }) {
       <span className="pulse" aria-hidden />
       <div>
         <p className="meter-kicker">ProofMeter</p>
-        <strong>{sec}s elapsed — proving on this machine</strong>
+        <strong>{sec}s elapsed - proving on this machine</strong>
         <p>
-          Your numbers never left this device. 5–15 seconds is honest. This bar does not turn green until the circuit
-          returns.
+          Your numbers never left this device. 5–15 seconds is honest. This bar
+          does not turn green until the circuit returns.
         </p>
         {cold && (
-          <p className="fail">Past 45s the proof-server is cold — not a fake spinner succeeding in the background.</p>
+          <p className="fail">
+            Past 45s the proof-server is cold - not a fake spinner succeeding in
+            the background.
+          </p>
         )}
       </div>
     </div>

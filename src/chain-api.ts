@@ -30,7 +30,12 @@ app.get("/health", async (_req, res) => {
     const h = await chain();
     res.json({ ok: true, network: h.network, address: h.address });
   } catch (err) {
-    res.status(503).json({ ok: false, error: err instanceof Error ? err.message : String(err) });
+    res
+      .status(503)
+      .json({
+        ok: false,
+        error: err instanceof Error ? err.message : String(err),
+      });
   }
 });
 
@@ -38,7 +43,9 @@ app.get("/v1/ledger", async (_req, res) => {
   try {
     res.json(await readLedger(await chain()));
   } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : String(err) });
   }
 });
 
@@ -46,17 +53,23 @@ app.post("/v1/enrol", async (req, res) => {
   try {
     const persona = req.body?.persona as StudentPersona;
     if (persona !== "asha" && persona !== "meera") {
-      res.status(400).json({ error: "enrol asha or meera, or use /v1/enrol-batch" });
+      res
+        .status(400)
+        .json({ error: "enrol asha or meera, or use /v1/enrol-batch" });
       return;
     }
     const result = await enrolStudent(await chain(), persona);
-    res.json({ ok: true, ...result, pk: Buffer.from(result.pk).toString("hex") });
+    res.json({
+      ok: true,
+      ...result,
+      pk: Buffer.from(result.pk).toString("hex"),
+    });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     if (/structure bounds|exceeded/i.test(msg)) {
       res.status(409).json({
         error:
-          "Roster full (16/16 leaves). Depth-4 tree is at capacity — redeploy for a fresh roll, or file with already-enrolled students.",
+          "Roster full (16/16 leaves). Depth-4 tree is at capacity - redeploy for a fresh roll, or file with already-enrolled students.",
       });
       return;
     }
@@ -64,10 +77,12 @@ app.post("/v1/enrol", async (req, res) => {
   }
 });
 
-/** CSV-shaped batch: [{ alias, seed }] — seed is the student secret label, never a name on chain. */
+/** CSV-shaped batch: [{ alias, seed }] - seed is the student secret label, never a name on chain. */
 app.post("/v1/enrol-batch", async (req, res) => {
   try {
-    const rows = req.body?.rows as Array<{ alias?: string; seed?: string }> | undefined;
+    const rows = req.body?.rows as
+      | Array<{ alias?: string; seed?: string }>
+      | undefined;
     if (!Array.isArray(rows) || rows.length === 0) {
       res.status(400).json({ error: "rows: [{ alias, seed }] required" });
       return;
@@ -77,7 +92,13 @@ app.post("/v1/enrol-batch", async (req, res) => {
       return;
     }
     const h = await chain();
-    const out: Array<{ alias: string; txId: string; pk: string; ok: boolean; error?: string }> = [];
+    const out: Array<{
+      alias: string;
+      txId: string;
+      pk: string;
+      ok: boolean;
+      error?: string;
+    }> = [];
     for (const row of rows) {
       const seed = String(row.seed || "").trim();
       const alias = String(row.alias || seed).trim();
@@ -96,12 +117,24 @@ app.post("/v1/enrol-batch", async (req, res) => {
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         // Idempotent-ish: already inserted leaves are reported, not fatal for the batch.
-        out.push({ alias, txId: "", pk: "", ok: false, error: msg.split("\n")[0] });
+        out.push({
+          alias,
+          txId: "",
+          pk: "",
+          ok: false,
+          error: msg.split("\n")[0],
+        });
       }
     }
-    res.json({ ok: out.some((r) => r.ok), results: out, ledger: await readLedger(h) });
+    res.json({
+      ok: out.some((r) => r.ok),
+      results: out,
+      ledger: await readLedger(h),
+    });
   } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : String(err) });
   }
 });
 
@@ -115,7 +148,9 @@ app.post("/v1/epoch", async (req, res) => {
     const result = await setEpoch(await chain(), Math.floor(epoch));
     res.json({ ok: true, ...result, ledger: await readLedger(await chain()) });
   } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+    res
+      .status(500)
+      .json({ error: err instanceof Error ? err.message : String(err) });
   }
 });
 
@@ -139,7 +174,12 @@ app.post("/v1/file", async (req, res) => {
       commitment: Buffer.from(result.commitment).toString("hex"),
     });
   } catch (err) {
-    res.status(400).json({ ok: false, error: err instanceof Error ? err.message : String(err) });
+    res
+      .status(400)
+      .json({
+        ok: false,
+        error: err instanceof Error ? err.message : String(err),
+      });
   }
 });
 

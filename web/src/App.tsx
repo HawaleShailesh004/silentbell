@@ -1,7 +1,17 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CATEGORIES } from "./personas";
-import { ACCOUNTS, DEMO_CREDENTIAL_ROWS, findAccount, type Account } from "./accounts";
-import { clearSession, loadSession, saveSession, sessionAccount } from "./session";
+import {
+  ACCOUNTS,
+  DEMO_CREDENTIAL_ROWS,
+  findAccount,
+  type Account,
+} from "./accounts";
+import {
+  clearSession,
+  loadSession,
+  saveSession,
+  sessionAccount,
+} from "./session";
 import {
   COMMITTEE_PASSPHRASE,
   committeePublicKey,
@@ -40,7 +50,12 @@ type Screen =
   | "explorer"
   | "demo";
 
-type CastStep = { id: string; label: string; state: "pending" | "running" | "ok" | "fail"; detail?: string };
+type CastStep = {
+  id: string;
+  label: string;
+  state: "pending" | "running" | "ok" | "fail";
+  detail?: string;
+};
 
 const SCREENS: Screen[] = [
   "home",
@@ -54,7 +69,13 @@ const SCREENS: Screen[] = [
   "demo",
 ];
 
-const PROTECTED: Screen[] = ["workspace", "registrar", "bell", "named", "inbox"];
+const PROTECTED: Screen[] = [
+  "workspace",
+  "registrar",
+  "bell",
+  "named",
+  "inbox",
+];
 
 function screenFromLocation(): Screen {
   const hash = (location.hash || "").replace(/^#\/?/, "");
@@ -84,7 +105,9 @@ function defaultScreenFor(account: Account): Screen {
 
 export function App() {
   const [screen, setScreen] = useState<Screen>(() => screenFromLocation());
-  const [account, setAccount] = useState<Account | null>(() => sessionAccount(loadSession()));
+  const [account, setAccount] = useState<Account | null>(() =>
+    sessionAccount(loadSession()),
+  );
   const [email, setEmail] = useState("asha@campus.edu");
   const [password, setPassword] = useState("SilentBell!Student");
   const [authError, setAuthError] = useState("");
@@ -98,7 +121,10 @@ export function App() {
   const [status, setStatus] = useState("");
   const [fail, setFail] = useState<FailKind | null>(null);
   const [busy, setBusy] = useState(false);
-  const [publicFacts, setPublicFacts] = useState<string[]>(["epoch 1", "roster unpublished"]);
+  const [publicFacts, setPublicFacts] = useState<string[]>([
+    "epoch 1",
+    "roster unpublished",
+  ]);
   const [ledger, setLedger] = useState<any>(null);
   const [inbox, setInbox] = useState<any[]>([]);
   const [committeeUnlocked, setCommitteeUnlocked] = useState(false);
@@ -147,7 +173,9 @@ export function App() {
     e?.preventDefault();
     const found = findAccount(email, password);
     if (!found) {
-      setAuthError("Wrong email or password. Use a demo account from the list.");
+      setAuthError(
+        "Wrong email or password. Use a demo account from the list.",
+      );
       return;
     }
     saveSession(found.id);
@@ -184,17 +212,25 @@ export function App() {
       <div className="split">
         <section className="rail private">
           <h2>Never on the ledger</h2>
-          <p>Your enrolment secret, which leaf you are, and the incident story stay on this device — sealed for the committee.</p>
+          <p>
+            Your enrolment secret, which leaf you are, and the incident story
+            stay on this device - sealed for the committee.
+          </p>
           <div className="rail-chips">
             <span className="chip">witness</span>
             {account && <span className="chip">{account.displayName}</span>}
             {account && <span className="chip">{account.role}</span>}
-            <span className="chip">committee pk {committeePublicKey().slice(0, 10)}…</span>
+            <span className="chip">
+              committee pk {committeePublicKey().slice(0, 10)}…
+            </span>
           </div>
         </section>
         <section className="rail public">
           <h2>What Midnight learns</h2>
-          <p>Only facts a Compact circuit may disclose: membership, category, nullifier uniqueness, optional named handle.</p>
+          <p>
+            Only facts a Compact circuit may disclose: membership, category,
+            nullifier uniqueness, optional named handle.
+          </p>
           <div className="rail-chips">
             {publicFacts.map((f) => (
               <span className="chip" key={f}>
@@ -227,7 +263,10 @@ export function App() {
   }
 
   function rememberRing(commitment: string) {
-    const next = [commitment, ...myRings.filter((c) => c !== commitment)].slice(0, 40);
+    const next = [commitment, ...myRings.filter((c) => c !== commitment)].slice(
+      0,
+      40,
+    );
     setMyRings(next);
     localStorage.setItem("silentbell:my-rings", JSON.stringify(next));
   }
@@ -240,7 +279,9 @@ export function App() {
       const L = await fetchLedger(CHAIN);
       if (Number(L.rosterSize || 0) >= 16) {
         setEnrolled(["asha", "meera"]);
-        setStatus("Roster already full (16/16). Asha & Meera should already be on the roll — file directly.");
+        setStatus(
+          "Roster already full (16/16). Asha & Meera should already be on the roll - file directly.",
+        );
         return;
       }
       for (const who of ["asha", "meera"] as const) {
@@ -248,12 +289,13 @@ export function App() {
           await postEnrol(CHAIN, who);
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);
-          if (!/already|insert|member|structure bounds|exceeded/i.test(msg)) throw err;
+          if (!/already|insert|member|structure bounds|exceeded/i.test(msg))
+            throw err;
         }
       }
       setEnrolled(["asha", "meera"]);
       await refreshLedger();
-      setStatus("Roster is on chain. Names are not — only hashed leaves.");
+      setStatus("Roster is on chain. Names are not - only hashed leaves.");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Enrol failed";
       setFail(classifyFail(msg, chainPersona));
@@ -271,10 +313,14 @@ export function App() {
       const rows = parseRosterCsv(csvText);
       if (rows.length === 0) throw new Error("CSV empty");
       const result = await postEnrolBatch(CHAIN, rows);
-      const ok = (result.results || []).filter((r: any) => r.ok).map((r: any) => r.alias);
+      const ok = (result.results || [])
+        .filter((r: any) => r.ok)
+        .map((r: any) => r.alias);
       setEnrolled(ok);
       await refreshLedger();
-      setStatus(`Published ${ok.length}/${rows.length} hashed leaves. Names stayed in the CSV file.`);
+      setStatus(
+        `Published ${ok.length}/${rows.length} hashed leaves. Names stayed in the CSV file.`,
+      );
     } catch (err) {
       const msg = err instanceof Error ? err.message : "CSV enrol failed";
       setFail(classifyFail(msg, chainPersona));
@@ -290,7 +336,9 @@ export function App() {
     try {
       await postEpoch(CHAIN, nextEpoch);
       await refreshLedger();
-      setStatus(`Epoch is now ${nextEpoch}. Old nullifiers stay. New filings need current leaves.`);
+      setStatus(
+        `Epoch is now ${nextEpoch}. Old nullifiers stay. New filings need current leaves.`,
+      );
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "epoch failed");
     } finally {
@@ -320,7 +368,11 @@ export function App() {
           ...packed,
         });
       } catch {
-        const fallback = JSON.stringify({ commitment: chain.commitment, ...packed }, null, 2);
+        const fallback = JSON.stringify(
+          { commitment: chain.commitment, ...packed },
+          null,
+          2,
+        );
         const blob = new Blob([fallback], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -329,7 +381,7 @@ export function App() {
         a.click();
         URL.revokeObjectURL(url);
         setStatus(
-          "Blob API down — ciphertext downloaded for committee upload. " +
+          "Blob API down - ciphertext downloaded for committee upload. " +
             successCopy(named, handle, chain.txId),
         );
         rememberRing(chain.commitment);
@@ -369,7 +421,9 @@ export function App() {
 
   async function downloadExport(commitment: string) {
     const pack = await exportCase(API, commitment);
-    const blob = new Blob([JSON.stringify(pack, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(pack, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -382,9 +436,13 @@ export function App() {
     const steps: CastStep[] = [
       { id: "epoch", label: "Bump epoch (fresh nullifiers)", state: "pending" },
       { id: "enrol", label: "Enrol Asha + Meera", state: "pending" },
-      { id: "ravi", label: "Outsider files silent — must fail", state: "pending" },
+      {
+        id: "ravi",
+        label: "Outsider files silent - must fail",
+        state: "pending",
+      },
       { id: "asha", label: "Student files silent + blob", state: "pending" },
-      { id: "dup", label: "Duplicate — must fail", state: "pending" },
+      { id: "dup", label: "Duplicate - must fail", state: "pending" },
       { id: "named", label: "Named emergency + blob", state: "pending" },
       { id: "inbox", label: "Committee ack + export", state: "pending" },
     ];
@@ -394,7 +452,9 @@ export function App() {
     setStatus("Running product demo cast…");
 
     const mark = (id: string, state: CastStep["state"], detail?: string) => {
-      setCastSteps((prev) => prev.map((s) => (s.id === id ? { ...s, state, detail } : s)));
+      setCastSteps((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, state, detail } : s)),
+      );
     };
 
     const cat = 2;
@@ -411,16 +471,17 @@ export function App() {
       mark("enrol", "running");
       const rosterSize = Number((await fetchLedger(CHAIN)).rosterSize || 0);
       if (rosterSize >= 16) {
-        // Depth-4 HistoricMerkleTree holds 16 leaves. Prior CSV/demo fills are OK —
+        // Depth-4 HistoricMerkleTree holds 16 leaves. Prior CSV/demo fills are OK -
         // Asha/Meera were enrolled earlier; skip insert to avoid "exceeded structure bounds".
-        mark("enrol", "ok", "roster full (16) — using existing leaves");
+        mark("enrol", "ok", "roster full (16) - using existing leaves");
       } else {
         for (const who of ["asha", "meera"] as const) {
           try {
             await postEnrol(CHAIN, who);
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
-            if (!/already|insert|member|structure bounds|exceeded/i.test(msg)) throw err;
+            if (!/already|insert|member|structure bounds|exceeded/i.test(msg))
+              throw err;
           }
         }
         mark("enrol", "ok", "hashed leaves on roster");
@@ -467,13 +528,20 @@ export function App() {
 
       mark("inbox", "running");
       if (!unlockCommittee(COMMITTEE_PASSPHRASE)) {
-        throw new Error("committee unlock failed — check COMPAT.md");
+        throw new Error("committee unlock failed - check COMPAT.md");
       }
       setCommitteeUnlocked(true);
       setPassphrase(COMMITTEE_PASSPHRASE);
-      await patchCase(API, silent.commitment, "acknowledged", "product demo ack");
+      await patchCase(
+        API,
+        silent.commitment,
+        "acknowledged",
+        "product demo ack",
+      );
       const pack = await exportCase(API, silent.commitment);
-      const blob = new Blob([JSON.stringify(pack, null, 2)], { type: "application/json" });
+      const blob = new Blob([JSON.stringify(pack, null, 2)], {
+        type: "application/json",
+      });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -483,13 +551,17 @@ export function App() {
       mark("inbox", "ok", "acked + exported");
 
       await refreshLedger();
-      setStatus("Demo cast complete. Sign in as committee to decrypt in Inbox.");
+      setStatus(
+        "Demo cast complete. Sign in as committee to decrypt in Inbox.",
+      );
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       setCastSteps((prev) => {
         const running = prev.find((s) => s.state === "running");
         if (!running) return prev;
-        return prev.map((s) => (s.id === running.id ? { ...s, state: "fail", detail: msg } : s));
+        return prev.map((s) =>
+          s.id === running.id ? { ...s, state: "fail", detail: msg } : s,
+        );
       });
       setStatus(msg);
       setFail(classifyFail(msg, "asha"));
@@ -499,7 +571,8 @@ export function App() {
   }
 
   function navClass(id: Screen) {
-    if (id === "bell" && (screen === "bell" || screen === "named")) return "is-active";
+    if (id === "bell" && (screen === "bell" || screen === "named"))
+      return "is-active";
     return screen === id ? "is-active" : undefined;
   }
 
@@ -512,36 +585,64 @@ export function App() {
         </button>
         <nav className="site-nav" aria-label="Primary">
           {account?.role === "registrar" && (
-            <button type="button" className={navClass("registrar")} onClick={() => go("registrar")}>
+            <button
+              type="button"
+              className={navClass("registrar")}
+              onClick={() => go("registrar")}
+            >
               The Roll
             </button>
           )}
           {account?.role === "student" && (
             <>
-              <button type="button" className={navClass("bell")} onClick={() => go("bell")}>
+              <button
+                type="button"
+                className={navClass("bell")}
+                onClick={() => go("bell")}
+              >
                 Ring
               </button>
-              <button type="button" className={navClass("named")} onClick={() => go("named")}>
+              <button
+                type="button"
+                className={navClass("named")}
+                onClick={() => go("named")}
+              >
                 Named
               </button>
             </>
           )}
           {account?.role === "committee" && (
-            <button type="button" className={navClass("inbox")} onClick={() => go("inbox")}>
+            <button
+              type="button"
+              className={navClass("inbox")}
+              onClick={() => go("inbox")}
+            >
               Inbox
             </button>
           )}
-          <button type="button" className={navClass("explorer")} onClick={() => go("explorer")}>
+          <button
+            type="button"
+            className={navClass("explorer")}
+            onClick={() => go("explorer")}
+          >
             Explorer
           </button>
         </nav>
         <div className="header-actions">
           {!account ? (
             <>
-              <button type="button" className="ghost site-header-demo" onClick={() => go("demo")}>
+              <button
+                type="button"
+                className="ghost site-header-demo"
+                onClick={() => go("demo")}
+              >
                 Live cast
               </button>
-              <button type="button" className="primary site-header-cta" onClick={() => go("signin")}>
+              <button
+                type="button"
+                className="primary site-header-cta"
+                onClick={() => go("signin")}
+              >
                 Enter
               </button>
             </>
@@ -551,7 +652,11 @@ export function App() {
                 <strong>{account.displayName}</strong>
                 <span>{account.role}</span>
               </div>
-              <button type="button" className="ghost site-header-demo" onClick={signOut}>
+              <button
+                type="button"
+                className="ghost site-header-demo"
+                onClick={signOut}
+              >
                 Sign out
               </button>
             </>
@@ -566,10 +671,7 @@ export function App() {
     return (
       <div className="app-root">
         {siteHeader}
-        <Landing
-          go={(s) => go(s)}
-          boundary={boundary}
-        />
+        <Landing go={(s) => go(s)} boundary={boundary} />
       </div>
     );
   }
@@ -612,7 +714,11 @@ export function App() {
                 <button className="primary" type="submit">
                   {COPY.signin.submit}
                 </button>
-                <button className="ghost" type="button" onClick={() => go("home")}>
+                <button
+                  className="ghost"
+                  type="button"
+                  onClick={() => go("home")}
+                >
                   Back
                 </button>
               </div>
@@ -622,7 +728,12 @@ export function App() {
               <p className="tagline">{COPY.signin.demoHint}</p>
               <div className="cred-list">
                 {ACCOUNTS.map((a) => (
-                  <button key={a.id} type="button" className="cred-row" onClick={() => quickLogin(a)}>
+                  <button
+                    key={a.id}
+                    type="button"
+                    className="cred-row"
+                    onClick={() => quickLogin(a)}
+                  >
                     <strong>{a.displayName}</strong>
                     <span className="chip">{a.role}</span>
                     <small>
@@ -632,7 +743,8 @@ export function App() {
                 ))}
               </div>
               <p className="tagline" style={{ marginTop: 20 }}>
-                Committee decrypt passphrase: <code>silentbell-committee-pilot-v1</code>
+                Committee decrypt passphrase:{" "}
+                <code>silentbell-committee-pilot-v1</code>
               </p>
             </aside>
           </div>
@@ -657,14 +769,20 @@ export function App() {
               Run full demo cast
             </button>
             {castSteps.length === 0 && !busy && (
-              <p className="empty">Needs chain + blob + proof-server. About a minute of proofs.</p>
+              <p className="empty">
+                Needs chain + blob + proof-server. About a minute of proofs.
+              </p>
             )}
             <div className="cast-log">
               {castSteps.map((s) => (
                 <div key={s.id} className={`cast-step ${s.state}`}>
                   <strong>{s.label}</strong>
                   <div className="tagline">
-                    {s.state === "running" ? "proving…" : s.state === "pending" ? "waiting" : s.detail || s.state}
+                    {s.state === "running"
+                      ? "proving…"
+                      : s.state === "pending"
+                        ? "waiting"
+                        : s.detail || s.state}
                   </div>
                 </div>
               ))}
@@ -748,7 +866,12 @@ export function App() {
         {screen === "registrar" && (
           <>
             {!account || account.role !== "registrar" ? (
-              <p className="empty">Registrar account required. <button className="ghost" onClick={() => go("signin")}>Sign in</button></p>
+              <p className="empty">
+                Registrar account required.{" "}
+                <button className="ghost" onClick={() => go("signin")}>
+                  Sign in
+                </button>
+              </p>
             ) : (
               <>
                 <div className="page-head">
@@ -759,13 +882,25 @@ export function App() {
                 <div className="panel">
                   <div className="field">
                     <label>Roster CSV</label>
-                    <textarea rows={8} value={csvText} onChange={(e) => setCsvText(e.target.value)} />
+                    <textarea
+                      rows={8}
+                      value={csvText}
+                      onChange={(e) => setCsvText(e.target.value)}
+                    />
                   </div>
                   <div className="row">
-                    <button className="primary" disabled={busy} onClick={enrolCsv}>
+                    <button
+                      className="primary"
+                      disabled={busy}
+                      onClick={enrolCsv}
+                    >
                       Publish CSV roster
                     </button>
-                    <button className="ghost" disabled={busy} onClick={enrolDemo}>
+                    <button
+                      className="ghost"
+                      disabled={busy}
+                      onClick={enrolDemo}
+                    >
                       Quick publish (Asha, Meera)
                     </button>
                   </div>
@@ -778,10 +913,16 @@ export function App() {
                       onChange={(e) => setNextEpoch(Number(e.target.value))}
                     />
                   </div>
-                  <button className="danger" disabled={busy} onClick={bumpEpoch}>
+                  <button
+                    className="danger"
+                    disabled={busy}
+                    onClick={bumpEpoch}
+                  >
                     Freeze / set epoch
                   </button>
-                  {enrolled.length > 0 && <p className="ok">Leaves accepted: {enrolled.join(", ")}</p>}
+                  {enrolled.length > 0 && (
+                    <p className="ok">Leaves accepted: {enrolled.join(", ")}</p>
+                  )}
                 </div>
               </>
             )}
@@ -791,20 +932,29 @@ export function App() {
         {screen === "bell" && (
           <>
             {!account || account.role !== "student" ? (
-              <p className="empty">Student account required. <button className="ghost" onClick={() => go("signin")}>Sign in</button></p>
+              <p className="empty">
+                Student account required.{" "}
+                <button className="ghost" onClick={() => go("signin")}>
+                  Sign in
+                </button>
+              </p>
             ) : (
               <>
                 <div className="page-head">
                   <p className="page-kicker">Student</p>
                   <h1>{COPY.bell.title}</h1>
                   <p className="tagline">
-                    {account.displayName}. {account.enrolled ? COPY.bell.leadOn : COPY.bell.leadOff}
+                    {account.displayName}.{" "}
+                    {account.enrolled ? COPY.bell.leadOn : COPY.bell.leadOff}
                   </p>
                 </div>
                 <div className="panel">
                   <div className="field">
                     <label>Category</label>
-                    <select value={category} onChange={(e) => setCategory(Number(e.target.value))}>
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(Number(e.target.value))}
+                    >
                       {CATEGORIES.map((c, i) => (
                         <option key={c} value={i}>
                           {c}
@@ -813,7 +963,9 @@ export function App() {
                     </select>
                   </div>
                   <div className="field">
-                    <label>What happened (sealed to committee — never ledger)</label>
+                    <label>
+                      What happened (sealed to committee - never ledger)
+                    </label>
                     <textarea
                       rows={5}
                       value={body}
@@ -822,10 +974,18 @@ export function App() {
                     />
                   </div>
                   <div className="row">
-                    <button className="primary" disabled={busy} onClick={() => file(false)}>
+                    <button
+                      className="primary"
+                      disabled={busy}
+                      onClick={() => file(false)}
+                    >
                       File silent report
                     </button>
-                    <button className="danger" disabled={busy} onClick={() => go("named")}>
+                    <button
+                      className="danger"
+                      disabled={busy}
+                      onClick={() => go("named")}
+                    >
                       Named emergency instead
                     </button>
                   </div>
@@ -861,7 +1021,10 @@ export function App() {
                 <div className="panel">
                   <div className="field">
                     <label>Category</label>
-                    <select value={category} onChange={(e) => setCategory(Number(e.target.value))}>
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(Number(e.target.value))}
+                    >
                       {CATEGORIES.map((c, i) => (
                         <option key={c} value={i}>
                           {c}
@@ -871,13 +1034,25 @@ export function App() {
                   </div>
                   <div className="field">
                     <label>Handle the committee will see</label>
-                    <input value={handle} onChange={(e) => setHandle(e.target.value)} maxLength={32} />
+                    <input
+                      value={handle}
+                      onChange={(e) => setHandle(e.target.value)}
+                      maxLength={32}
+                    />
                   </div>
                   <div className="field">
                     <label>What happened</label>
-                    <textarea rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+                    <textarea
+                      rows={4}
+                      value={body}
+                      onChange={(e) => setBody(e.target.value)}
+                    />
                   </div>
-                  <button className="danger" disabled={busy} onClick={() => file(true)}>
+                  <button
+                    className="danger"
+                    disabled={busy}
+                    onClick={() => file(true)}
+                  >
                     File named report
                   </button>
                 </div>
@@ -889,7 +1064,12 @@ export function App() {
         {screen === "inbox" && (
           <>
             {!account || account.role !== "committee" ? (
-              <p className="empty">Committee account required. <button className="ghost" onClick={() => go("signin")}>Sign in</button></p>
+              <p className="empty">
+                Committee account required.{" "}
+                <button className="ghost" onClick={() => go("signin")}>
+                  Sign in
+                </button>
+              </p>
             ) : (
               <>
                 <div className="page-head">
@@ -924,7 +1104,9 @@ export function App() {
                           Unlock inbox
                         </button>
                       </div>
-                      <p className="empty">Pilot passphrase: silentbell-committee-pilot-v1</p>
+                      <p className="empty">
+                        Pilot passphrase: silentbell-committee-pilot-v1
+                      </p>
                     </div>
                   ) : (
                     <button className="primary" onClick={loadInbox}>
@@ -938,8 +1120,14 @@ export function App() {
                     {inbox.map((row) => (
                       <article className="case" key={row.commitment}>
                         <div className="row">
-                          <span className="chip">{CATEGORIES[row.category] ?? "category"}</span>
-                          <span className="chip">{row.rail === "named" ? "named rail" : "silent rail"}</span>
+                          <span className="chip">
+                            {CATEGORIES[row.category] ?? "category"}
+                          </span>
+                          <span className="chip">
+                            {row.rail === "named"
+                              ? "named rail"
+                              : "silent rail"}
+                          </span>
                           <span className="chip">{row.status || "new"}</span>
                         </div>
                         {row.rail === "named" && row.handle ? (
@@ -957,19 +1145,42 @@ export function App() {
                             : "(locked)"}
                         </p>
                         <div className="row">
-                          <button className="ghost" onClick={() => setCaseStatus(row.commitment, "acknowledged")}>
+                          <button
+                            className="ghost"
+                            onClick={() =>
+                              setCaseStatus(row.commitment, "acknowledged")
+                            }
+                          >
                             Ack
                           </button>
-                          <button className="ghost" onClick={() => setCaseStatus(row.commitment, "escalated")}>
+                          <button
+                            className="ghost"
+                            onClick={() =>
+                              setCaseStatus(row.commitment, "escalated")
+                            }
+                          >
                             Escalate
                           </button>
-                          <button className="ghost" onClick={() => setCaseStatus(row.commitment, "closed")}>
+                          <button
+                            className="ghost"
+                            onClick={() =>
+                              setCaseStatus(row.commitment, "closed")
+                            }
+                          >
                             Close
                           </button>
-                          <button className="danger" onClick={() => setCaseStatus(row.commitment, "malicious")}>
+                          <button
+                            className="danger"
+                            onClick={() =>
+                              setCaseStatus(row.commitment, "malicious")
+                            }
+                          >
                             Malicious
                           </button>
-                          <button className="primary" onClick={() => downloadExport(row.commitment)}>
+                          <button
+                            className="primary"
+                            onClick={() => downloadExport(row.commitment)}
+                          >
                             Export
                           </button>
                         </div>
@@ -993,28 +1204,30 @@ export function App() {
               <div className="stat-grid">
                 <div className="stat">
                   <span>Network</span>
-                  <strong>{ledger?.network ?? "—"}</strong>
+                  <strong>{ledger?.network ?? "-"}</strong>
                 </div>
                 <div className="stat">
                   <span>Epoch</span>
-                  <strong>{ledger?.epoch ?? "—"}</strong>
+                  <strong>{ledger?.epoch ?? "-"}</strong>
                 </div>
                 <div className="stat">
                   <span>Silent filings</span>
-                  <strong>{ledger?.silentCount ?? "—"}</strong>
+                  <strong>{ledger?.silentCount ?? "-"}</strong>
                 </div>
                 <div className="stat">
                   <span>Named filings</span>
-                  <strong>{ledger?.namedCount ?? "—"}</strong>
+                  <strong>{ledger?.namedCount ?? "-"}</strong>
                 </div>
                 <div className="stat">
                   <span>Roster leaves</span>
-                  <strong>{ledger?.rosterSize ?? "—"}</strong>
+                  <strong>{ledger?.rosterSize ?? "-"}</strong>
                 </div>
                 <div className="stat">
                   <span>Contract</span>
                   <strong style={{ fontSize: "0.95rem" }}>
-                    {ledger?.address ? `${String(ledger.address).slice(0, 14)}…` : "—"}
+                    {ledger?.address
+                      ? `${String(ledger.address).slice(0, 14)}…`
+                      : "-"}
                   </strong>
                 </div>
               </div>

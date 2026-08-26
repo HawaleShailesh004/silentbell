@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Silent Bell — Judge Brief</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0b1220;
+        --muted: #4a5a68;
+        --teal: #1a5c4a;
+        --teal-deep: #0f3f34;
+        --ok: #0f6b3c;
+        --line: rgba(11, 18, 32, 0.12);
+        --paper: #ffffff;
+        --bg: #eef2ef;
+        --display: "Newsreader", Georgia, serif;
+        --ui: "Plus Jakarta Sans", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+      }
+      * { box-sizing: border-box; }
+      @page { size: A4; margin: 12mm 12mm; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--ui);
+        font-size: 10.2pt;
+        line-height: 1.48;
+        background: var(--bg);
+      }
+      .sheet {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 32px 36px 48px;
+        background: var(--paper);
+      }
+      @media print {
+        body { background: #fff; }
+        .sheet { max-width: none; padding: 0; }
+        .no-print { display: none !important; }
+        a { color: var(--ink); text-decoration: underline; }
+        section, table, .split, .callout { break-inside: avoid; }
+      }
+      .no-print {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .no-print button {
+        font-family: var(--ui);
+        font-weight: 600;
+        font-size: 0.85rem;
+        border: 0;
+        background: var(--teal);
+        color: #fff;
+        padding: 9px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      header {
+        border-bottom: 3px solid var(--teal);
+        padding-bottom: 16px;
+        margin-bottom: 22px;
+      }
+      .kicker {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin: 0 0 8px;
+      }
+      h1 {
+        font-family: var(--display);
+        font-size: 2.15rem;
+        font-weight: 700;
+        margin: 0 0 6px;
+        letter-spacing: -0.03em;
+        line-height: 1.08;
+      }
+      .tagline {
+        font-family: var(--display);
+        font-style: italic;
+        font-size: 1.08rem;
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+      .links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 18px;
+        font-size: 0.88rem;
+      }
+      .links span {
+        display: block;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .links a { font-weight: 600; color: var(--teal-deep); }
+      h2 {
+        font-family: var(--display);
+        font-size: 1.28rem;
+        font-weight: 600;
+        margin: 26px 0 10px;
+        color: var(--teal-deep);
+        letter-spacing: -0.02em;
+      }
+      h3 {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--teal);
+        margin: 14px 0 6px;
+      }
+      p { margin: 0 0 10px; }
+      .lead {
+        font-size: 1.02rem;
+        color: var(--ink);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        margin: 8px 0 14px;
+      }
+      th, td {
+        border: 1px solid var(--line);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #eef4f1;
+        font-size: 0.68rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 10px 0 14px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 12px 14px;
+        background: #fafcfb;
+      }
+      .card h3 { margin-top: 0; }
+      .card.bad { border-top: 3px solid #9a2434; }
+      .card.good { border-top: 3px solid var(--teal); }
+      .callout {
+        border-left: 4px solid var(--teal);
+        background: #f3f8f6;
+        padding: 12px 14px;
+        margin: 12px 0 16px;
+      }
+      .callout p:last-child { margin-bottom: 0; }
+      .mono {
+        font-family: var(--mono);
+        font-size: 0.78em;
+        word-break: break-all;
+      }
+      .contract {
+        background: var(--teal-deep);
+        color: #f3f6f4;
+        padding: 14px 16px;
+        border-radius: 4px;
+        margin: 12px 0 16px;
+      }
+      .contract .label {
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        opacity: 0.75;
+        margin-bottom: 6px;
+      }
+      .contract a { color: #9ee0c8; }
+      ol.flow { margin: 6px 0 12px; padding-left: 1.2rem; }
+      ol.flow li { margin-bottom: 5px; }
+      figure {
+        margin: 10px 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        overflow: hidden;
+        background: #eef2ef;
+      }
+      figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      figcaption {
+        font-size: 0.72rem;
+        color: var(--muted);
+        padding: 6px 10px 8px;
+        border-top: 1px solid var(--line);
+        background: #fff;
+      }
+      footer {
+        margin-top: 28px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      @media (max-width: 640px) {
+        .links, .split { grid-template-columns: 1fr; }
+        .sheet { padding: 20px 16px 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sheet">
+      <div class="no-print">
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+      </div>
+
+      <header>
+        <p class="kicker">Brainwave 2026 · Midnight Track · Judge brief</p>
+        <h1>Silent Bell</h1>
+        <p class="tagline">
+          The report that cannot be traced. The student who cannot be faked.
+        </p>
+        <div class="links">
+          <div>
+            <span>Demo video</span>
+            <a href="https://youtu.be/KOa5WjgBbwM">youtu.be/KOa5WjgBbwM</a>
+          </div>
+          <div>
+            <span>Source code</span>
+            <a href="https://github.com/HawaleShailesh004/silentbell">github.com/HawaleShailesh004/silentbell</a>
+          </div>
+          <div>
+            <span>On-chain (Preview)</span>
+            <a href="https://explorer.preview.midnight.network/">explorer.preview.midnight.network</a>
+          </div>
+          <div>
+            <span>Judge brief (GitHub)</span>
+            <a href="https://github.com/HawaleShailesh004/silentbell/blob/main/docs/JUDGE-BRIEF.md">docs/JUDGE-BRIEF.md</a>
+          </div>
+        </div>
+      </header>
+
+      <p class="lead">
+        Silent Bell is a campus incident-intake product on Midnight. A student
+        can prove they are on this semester’s roll, file a grievance, and keep
+        their identity off the ledger. Outsiders cannot file. Duplicates cannot
+        flood a category. The committee reads the case — not the silent name.
+      </p>
+
+      <h2>1. The problem</h2>
+      <p>
+        Campuses need reports of ragging, harassment, and hostel abuse. Students
+        are offered two doors. Both fail.
+      </p>
+      <div class="split">
+        <div class="card bad">
+          <h3>Named complaint</h3>
+          <p>
+            Identity is attached. Retaliation is the rational fear: seniors who
+            know, a warden who “handles it quietly,” three years of being left
+            out. Juniors stay silent.
+          </p>
+        </div>
+        <div class="card bad">
+          <h3>Anonymous form</h3>
+          <p>
+            Anyone can submit. Outsiders, rivalries, hoaxes. The committee
+            receives noise and learns to trust nothing. Real harm disappears
+            into the pile.
+          </p>
+        </div>
+      </div>
+      <div class="callout">
+        <p>
+          <strong>The actual question:</strong> How do you prove a reporter is
+          enrolled this semester — without revealing which student — and without
+          letting fakes own the microphone?
+        </p>
+      </div>
+      <p>
+        The product narrative uses a <strong>synthetic composite</strong>
+        (hostel lights / “intro”). Real harm is not submitted as content. The
+        feeling is the requirement.
+      </p>
+
+      <h2>2. The product</h2>
+      <p>
+        Silent Bell is a full-stack campus pilot: registrar, student, outsider
+        fail, duplicate fail, named emergency, committee inbox, public explorer.
+        Not a circuit toy.
+      </p>
+      <figure>
+        <img src="architecture.svg" alt="Architecture: campus roles to Compact proofs to sealed committee path" />
+        <figcaption>Architecture — roles → Compact proofs → sealed committee path</figcaption>
+      </figure>
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>What they do</th>
+            <th>What Midnight learns</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Registrar</td>
+            <td>Publishes the semester roster as hashed Merkle leaves. Names stay in the CSV.</td>
+            <td>Roster root / membership set — not names</td>
+          </tr>
+          <tr>
+            <td>Student (silent)</td>
+            <td>Proves enrolment and files. Story is sealed to the committee key, stored off-chain.</td>
+            <td>Someone enrolled filed; category; nullifier; commitment. Never which leaf.</td>
+          </tr>
+          <tr>
+            <td>Student (named)</td>
+            <td>Same proof, plus a handle they choose to disclose — only when silence itself is unsafe.</td>
+            <td>Membership + the handle they published on purpose</td>
+          </tr>
+          <tr>
+            <td>Outsider</td>
+            <td>Tries to file. Circuit rejects. Product working.</td>
+            <td>No valid membership path</td>
+          </tr>
+          <tr>
+            <td>Committee</td>
+            <td>Unlocks the key on-device, decrypts, acknowledges, escalates, closes, or exports.</td>
+            <td>On the silent rail: still not which student</td>
+          </tr>
+          <tr>
+            <td>Public explorer</td>
+            <td>Sees epoch and counts.</td>
+            <td>Accountability without voyeurism</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Stack</h3>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>What</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Compact</td><td><code>enrol</code>, <code>setEpoch</code>, <code>fileSilent</code>, <code>fileNamed</code> — depth-4 HistoricMerkleTree (16 leaves), epoch × category nullifiers</td></tr>
+          <tr><td>Midnight.js 4.1.1</td><td>Deploy and callTx against local Docker or public Preview</td></tr>
+          <tr><td>Proof server 8.1.0</td><td>Real ZK proofs — not mocked</td></tr>
+          <tr><td>Chain API</td><td>Enrol / file / epoch / ledger reads</td></tr>
+          <tr><td>Blob API</td><td>Sealed capsules (X25519 + AES-GCM). Incident plaintext is never a ledger field.</td></tr>
+          <tr><td>Web</td><td>React / Vite product UI with FailWell states and a one-click Live cast</td></tr>
+        </tbody>
+      </table>
+
+      <h2>3. Why Midnight — not Web2, not a public chain</h2>
+      <p>
+        This is the load-bearing claim. If the same product worked as a Google
+        Form or a public Ethereum dApp, Midnight would be a sticker. It is not.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Enrolment proven?</th>
+            <th>Identity protected?</th>
+            <th>Anti-hoax?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Web2 form</td>
+            <td>No</td>
+            <td>Semi (IP, metadata)</td>
+            <td>Flooded with noise</td>
+          </tr>
+          <tr>
+            <td>Public blockchain</td>
+            <td>Via wallet / KYC</td>
+            <td>No — address is on the explorer</td>
+            <td>Gas + spam still possible</td>
+          </tr>
+          <tr>
+            <td><strong>Silent Bell (Midnight Compact)</strong></td>
+            <td><strong>Yes — Merkle membership proof</strong></td>
+            <td><strong>Yes — witness never published</strong></td>
+            <td><strong>Yes — epoch × category nullifiers</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Midnight is built for <strong>selective disclosure</strong>: prove a fact
+        without publishing the private data behind it.         Compact is the language
+        of those rules.
+      </p>
+      <figure>
+        <img src="trust-boundary.svg" alt="Trust boundary: what stays private versus what Midnight may learn" />
+        <figcaption>Trust boundary — never on the ledger vs on the ledger</figcaption>
+      </figure>
+      <div class="split">
+        <div class="card">
+          <h3>Private (device / sealed store)</h3>
+          <p>Student secret and Merkle path. Incident plaintext. Committee decryption key.</p>
+        </div>
+        <div class="card">
+          <h3>Public (ledger)</h3>
+          <p>Membership check. Category. Nullifier. Commitment. Named handle only on the named rail.</p>
+        </div>
+      </div>
+      <p>
+        Analogy: a sealed wristband that only enrolled students can produce.
+        The club learns “this person is allowed in.” It does not learn the name
+        from the wristband.
+      </p>
+
+      <h2>4. How the proof works</h2>
+      <ol class="flow">
+        <li>The registrar publishes this semester’s roster as hashed leaves (epoch).</li>
+        <li>A student proves: “I hold a secret that matches <em>one</em> leaf in that tree” — without saying which leaf.</li>
+        <li>Midnight accepts the transaction only if the Compact proof is valid.</li>
+        <li>Outsiders fail. Same student, same category, same epoch: nullifier fails (duplicate blocked).</li>
+        <li>The story is encrypted to the committee public key and stored off-chain. The ledger holds only a commitment.</li>
+      </ol>
+
+      <h2>5. On-chain deployment</h2>
+      <p>
+        Compact is deployed on <strong>Midnight Preview</strong> (public test
+        network accepted by the track). Judges can look up the address on the
+        Preview explorer.
+      </p>
+      <div class="contract">
+        <div class="label">Contract address · Midnight Preview · 26 Aug 2026</div>
+        <div class="mono">5c5312147f35c25ff0ba3aa9771e46e6b19ea1522b232a08b3dacabc95fc4048</div>
+        <p style="margin: 10px 0 0; font-size: 0.88rem; opacity: 0.9">
+          Deployer
+          <span class="mono">mn_addr_preview1guclk6ltr8prs87mu7um563r46fzdtvnazg0vzc8xame8qqhe93s7v7dx6</span><br />
+          Explorer
+          <a href="https://explorer.preview.midnight.network/">explorer.preview.midnight.network</a>
+          · Verified via Preview indexer <code>contractAction</code> → ContractDeploy
+        </p>
+      </div>
+      <p>
+        The demo video runs the same circuits against a local Midnight stack
+        (proof-server, node, indexer) so judges see real proofs without Preview
+        wallet-sync latency. The Preview address is the public eligibility
+        deployment.
+      </p>
+
+      <h2>6. Demonstration</h2>
+      <p>
+        <strong>Watch:</strong>
+        <a href="https://youtu.be/KOa5WjgBbwM">https://youtu.be/KOa5WjgBbwM</a>
+      </p>
+      <p>The video shows the live product:</p>
+      <ol class="flow">
+        <li>Landing and the two-door trap</li>
+        <li>Trust boundary (what Midnight may learn vs never learns)</li>
+        <li>One-click Live cast on real Compact proofs: outsider fails → enrolled student files silently → duplicate blocked → named rail → committee ack</li>
+        <li>Committee inbox (silent identity empty)</li>
+        <li>Public explorer (counts / epoch)</li>
+        <li>Preview contract on screen</li>
+      </ol>
+      <p>
+        To reproduce locally: clone
+        <a href="https://github.com/HawaleShailesh004/silentbell">the repo</a>,
+        follow <a href="https://github.com/HawaleShailesh004/silentbell/blob/main/README.md">README.md</a>
+        (<code>docker compose up</code>, blob, chain, web). Demo accounts and
+        committee passphrase are in
+        <a href="https://github.com/HawaleShailesh004/silentbell/blob/main/COMPAT.md">COMPAT.md</a>.
+      </p>
+
+      <h2>7. Honesty and limits</h2>
+      <p>
+        This is a <strong>hackathon campus pilot</strong>, not a UGC-certified
+        production system. Roster size is bounded (16 leaves in the depth-4
+        tree). Pilot passwords would be replaced by campus SSO. Committee keys
+        would be held in a real ceremony. Incident stories in the demo are
+        synthetic.
+      </p>
+      <p>
+        What is real: Compact circuits, Midnight.js transactions, proof-server
+        proofs, Preview deployment, and the product rule — prove enrolment,
+        never force the name, never let fakes own the microphone.
+      </p>
+
+      <footer>
+        Silent Bell · Brainwave 2026 Midnight Track · Demo
+        <a href="https://youtu.be/KOa5WjgBbwM">youtu.be/KOa5WjgBbwM</a>
+        · Source
+        <a href="https://github.com/HawaleShailesh004/silentbell">HawaleShailesh004/silentbell</a>
+      </footer>
+    </div>
+  </body>
+</html>

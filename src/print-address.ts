@@ -27,7 +27,9 @@ async function main() {
   console.log(`Faucet: ${networkConfig.faucet}`);
   console.log("After funding, run: npx tsx src/deploy.ts --network preprod\n");
   if (WALLET.mnemonic) {
-    console.log("(Recovery phrase is in .midnight-state.json — do not commit.)\n");
+    console.log(
+      "(Recovery phrase is in .midnight-state.json - do not commit.)\n",
+    );
   }
   await walletCtx.wallet.stop();
   process.exit(0);

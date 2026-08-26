@@ -1,29 +1,40 @@
-# Submission pack — Silent Bell
+# Silent Bell — judge materials
 
-Everything for Brainwave / Devpost finalize.
+Brainwave 2026 Midnight Track.
 
-| Artifact | Path |
-|----------|------|
-| Devpost paste copy | [docs/DEVPOST.md](docs/DEVPOST.md) |
-| Demo / pitch script | [docs/DEMO-SCRIPT.md](docs/DEMO-SCRIPT.md) |
-| Architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Thumbnail (upload as cover) | [docs/media/devpost-thumbnail.png](docs/media/devpost-thumbnail.png) |
-| **3:2 AI thumbnail prompts** | [docs/media/THUMBNAIL-PROMPTS.md](docs/media/THUMBNAIL-PROMPTS.md) |
-| Brand icon | [docs/media/brand-icon.svg](docs/media/brand-icon.svg) · favicon at `web/public/favicon.svg` |
-| Architecture diagram | [docs/media/architecture.svg](docs/media/architecture.svg) |
-| Trust boundary diagram | [docs/media/trust-boundary.svg](docs/media/trust-boundary.svg) |
-| Human overview | [OVERVIEW.md](OVERVIEW.md) |
-| Demo accounts | [COMPAT.md](COMPAT.md) |
-| Engineer README | [README.md](README.md) |
+**Read first:** [docs/JUDGE-BRIEF.md](docs/JUDGE-BRIEF.md)
 
-## Devpost quick paste
+| | |
+| --- | --- |
+| Demo video | [youtu.be/KOa5WjgBbwM](https://youtu.be/KOa5WjgBbwM) |
+| Preview contract | `5c5312147f35c25ff0ba3aa9771e46e6b19ea1522b232a08b3dacabc95fc4048` |
+| Explorer | [explorer.preview.midnight.network](https://explorer.preview.midnight.network/) |
+| Local run | [README.md](README.md) |
 
-1. **Name:** Silent Bell  
-2. **Tagline:** The report that cannot be traced. The student who cannot be faked.  
-3. **Description (166 chars):** I built Silent Bell so a fresher can prove she's on the roll without naming herself—and so fakes can't drown her out. Midnight Compact. Sealed for the committee only.  
-4. **Built with:** see `docs/DEVPOST.md`  
-5. **Body:** copy sections from `docs/DEVPOST.md` (Inspiration → What's next) — story-led, first person  
-6. **Cover image:** `docs/media/devpost-thumbnail.png`  
-7. **Gallery:** screenshots checklist in `docs/DEVPOST.md` + both SVGs (export PNG if Devpost rejects SVG)
+## Diagrams
 
-**Story note:** Inspiration uses a synthetic composite fresher narrative (not a real case). Keep that honesty if judges ask.  
+![Architecture](docs/media/architecture.svg)
+
+![Trust boundary](docs/media/trust-boundary.svg)
+
+- [docs/media/architecture.svg](docs/media/architecture.svg)
+- [docs/media/trust-boundary.svg](docs/media/trust-boundary.svg)
+- [docs/media/brand-icon.svg](docs/media/brand-icon.svg)
+
+## Screenshots
+
+Every role, FailWell, Live cast, and the Preview contract card: [docs/media/devpost-gallery/](docs/media/devpost-gallery/).
+
+## Other docs
+
+| Doc | Purpose |
+| --- | --- |
+| [docs/JUDGE-BRIEF.md](docs/JUDGE-BRIEF.md) | Full scoring brief |
+| [OVERVIEW.md](OVERVIEW.md) | Short story + FAQ |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Circuits |
+| [COMPAT.md](COMPAT.md) | Demo accounts |
+| [docs/DEMO-SCRIPT.md](docs/DEMO-SCRIPT.md) | What the video / live cast shows |
+| [docs/DEVPOST.md](docs/DEVPOST.md) | Devpost description (paste-ready) |
+| [docs/media/SUBMISSION-EVIDENCE.html](docs/media/SUBMISSION-EVIDENCE.html) | Printable PDF |
+
+Narrative in the brief and Devpost is a **synthetic composite**, not a real person’s case.

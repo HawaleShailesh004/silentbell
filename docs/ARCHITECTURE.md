@@ -1,4 +1,4 @@
-# Silent Bell — architecture
+# Silent Bell - architecture
 
 ## One diagram in words
 

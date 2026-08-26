@@ -2,7 +2,7 @@ pragma language_version >= 0.23;
 
 import CompactStandardLibrary;
 
-// Silent Bell — enrolment membership without identity, anti-hoax nullifiers.
+// Silent Bell - enrolment membership without identity, anti-hoax nullifiers.
 // Depth 4 = 16 students. Inserts are visible; which member filed is not.
 
 export enum Rail { silent, named }

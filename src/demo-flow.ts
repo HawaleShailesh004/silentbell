@@ -1,4 +1,9 @@
-import { connectChain, enrolStudent, fileSilent, readLedger } from "./chain-client";
+import {
+  connectChain,
+  enrolStudent,
+  fileSilent,
+  readLedger,
+} from "./chain-client";
 
 async function expectFail(label: string, fn: () => Promise<unknown>) {
   try {
@@ -23,14 +28,14 @@ async function main() {
   const m = await enrolStudent(handle, "meera");
   console.log(`  Meera enrol tx ${m.txId}`);
 
-  console.log("\n2. Ravi (outsider) files silent — must fail");
+  console.log("\n2. Ravi (outsider) files silent - must fail");
   await expectFail("ravi", () => fileSilent(handle, "ravi", 2));
 
   console.log("\n3. Asha files silent (Hostel)");
   const filed = await fileSilent(handle, "asha", 2);
   console.log(`  Asha file tx ${filed.txId}`);
 
-  console.log("\n4. Asha files same category again — must fail (nullifier)");
+  console.log("\n4. Asha files same category again - must fail (nullifier)");
   await expectFail("duplicate", () => fileSilent(handle, "asha", 2));
 
   const ledger = await readLedger(handle);

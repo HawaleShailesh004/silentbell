@@ -1,9 +1,10 @@
-# Silent Bell — Simple Overview
+# Silent Bell - Simple Overview
 
-**One line:** A campus can take serious reports without knowing _who_ filed — but still knowing the reporter is a real student on this semester’s roll.
+**One line:** A campus can take serious reports without knowing _who_ filed - but still knowing the reporter is a real student on this semester’s roll.
 
 **Hackathon:** Brainwave 2026 · Midnight Track  
-**Tagline:** _The report that cannot be traced. The student who cannot be faked._
+**Tagline:** _The report that cannot be traced. The student who cannot be faked._  
+**Judge brief:** [docs/JUDGE-BRIEF.md](docs/JUDGE-BRIEF.md) · **Video:** [youtu.be/KOa5WjgBbwM](https://youtu.be/KOa5WjgBbwM)
 
 ---
 
@@ -26,7 +27,7 @@ So the real problem is:
 
 ## 2. Why are we solving this? (for the hackathon)
 
-Brainwave’s Midnight Track wants **real products** that use privacy tech for civic / campus problems — not DeFi demos.
+Brainwave’s Midnight Track wants **real products** that use privacy tech for civic / campus problems - not DeFi demos.
 
 Silent Bell is a **campus pilot product**:
 
@@ -63,7 +64,7 @@ Silent Bell puts **only public, safe facts** on Midnight. Private stuff stays on
 - That someone **on the current roll** filed
 - **Category** (e.g. Hostel, Harassment)
 - A **nullifier** (stops the same student from flooding the same category this semester)
-- A **commitment** (fingerprint of the sealed report — not the story)
+- A **commitment** (fingerprint of the sealed report - not the story)
 - Optional: a **named handle** only if the student chooses the emergency rail
 
 ### Never on the ledger
@@ -75,16 +76,16 @@ Silent Bell puts **only public, safe facts** on Midnight. Private stuff stays on
 ### How the proof works (simple)
 
 1. The college publishes a **hashed roster** (Merkle tree leaves) for this semester (**epoch**).
-2. A student proves: “I have a secret that matches **one leaf** in that tree” — without saying which leaf.
+2. A student proves: “I have a secret that matches **one leaf** in that tree” - without saying which leaf.
 3. Midnight accepts the transaction only if the proof is valid.
 4. Outsiders (not on the roll) **fail**. That’s intentional.
 
 We use:
 
-- **Compact** circuit — `enrol`, `setEpoch`, `fileSilent`, `fileNamed`
-- **Midnight.js** — deploy and call the contract
-- **proof-server** — builds the ZK proofs
-- Local Docker **node + indexer** (and later PreProd for public demo)
+- **Compact** circuit - `enrol`, `setEpoch`, `fileSilent`, `fileNamed`
+- **Midnight.js** - deploy and call the contract
+- **proof-server** - builds the ZK proofs
+- Local Docker **node + indexer** for the live cast, plus a **Preview** public deploy for track eligibility
 
 ---
 
@@ -113,6 +114,8 @@ Silent Bell has **two rails** and a clear trust split.
 
 ### What stays private vs public (Boundary)
 
+![Trust boundary](docs/media/trust-boundary.svg)
+
 | On this device                       | On the ledger                                      |
 | ------------------------------------ | -------------------------------------------------- |
 | Student secret, report text          | Membership proved, category, nullifier, commitment |
@@ -122,7 +125,7 @@ Silent Bell has **two rails** and a clear trust split.
 
 ## 6. What roles exist, and what can they do?
 
-### Registrar — “The Roll”
+### Registrar - “The Roll”
 
 **Who:** Admin / academic office issuing this semester’s list.
 
@@ -138,16 +141,16 @@ Silent Bell has **two rails** and a clear trust split.
 
 ---
 
-### Student — “Ring silently” / “Named emergency”
+### Student - “Ring silently” / “Named emergency”
 
 **Demo personas:**
 
 | Persona       | Role                                         |
 | ------------- | -------------------------------------------- |
-| **Asha**      | Fresher on the roll — silent + named success |
+| **Asha**      | Fresher on the roll - silent + named success |
 | **Meera**     | Student on the roll                          |
-| **Ravi**      | Outsider — **must fail**                     |
-| **Dr. Mehta** | Committee — reads inbox, does not file       |
+| **Ravi**      | Outsider - **must fail**                     |
+| **Dr. Mehta** | Committee - reads inbox, does not file       |
 
 **Students can:**
 
@@ -162,7 +165,7 @@ Silent Bell has **two rails** and a clear trust split.
 
 ---
 
-### Committee — “The Inbox” (Dr. Mehta)
+### Committee - “The Inbox” (Dr. Mehta)
 
 **Can do:**
 
@@ -180,7 +183,7 @@ Silent Bell has **two rails** and a clear trust split.
 
 ---
 
-### Public — “Explorer”
+### Public - “Explorer”
 
 **Anyone can:**
 
@@ -247,13 +250,16 @@ No. They know someone enrolled filed, and they can read the sealed text after un
 Not if they’re not on the roll. Proof fails.
 
 **Can one student flood the inbox?**  
-Not for the same category in the same semester — nullifier blocks it.
+Not for the same category in the same semester - nullifier blocks it.
 
 **Is this production / UGC-certified?**  
 No. It’s a **hackathon pilot** with a **synthetic** hostel narrative. Real campus use would need legal, ops, and key management work (see Roadmap).
 
-**What’s PreProd?**  
-Midnight’s public test network. We fund a wallet from the faucet and deploy the contract there so judges can see real txs (local Docker works for development).
+**Where is the public contract?**  
+Midnight **Preview**: `5c5312147f35c25ff0ba3aa9771e46e6b19ea1522b232a08b3dacabc95fc4048` — [Preview explorer](https://explorer.preview.midnight.network/). Local Docker still runs the judge live cast.
+
+**What’s Preview / PreProd?**  
+Midnight’s public test networks. Track eligibility needs Compact on Preview **or** PreProd. We shipped on Preview; PreProd sync was too unreliable for the deadline.
 
 **What’s Pramaan?**  
 A **separate** product/repo. Silent Bell is the primary Brainwave bet. Don’t mix them.
@@ -266,7 +272,9 @@ A **separate** product/repo. Silent Bell is the primary Brainwave bet. Don’t m
 
 ---
 
-## 10. One picture in words
+## 10. Architecture
+
+![Architecture](docs/media/architecture.svg)
 
 ```
 Registrar  →  hashed roll on Midnight
@@ -275,4 +283,4 @@ Committee  →  unlock → decrypt → act on cases
 Public     →  explorer counts only
 ```
 
-**Result:** authenticity without identity — and a committee that can still do its job.
+**Result:** authenticity without identity - and a committee that can still do its job.

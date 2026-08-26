@@ -1,9 +1,14 @@
-export type FailKind = "outsider" | "duplicate" | "committee" | "network" | "other";
+export type FailKind =
+  | "outsider"
+  | "duplicate"
+  | "committee"
+  | "network"
+  | "other";
 
 export const FAIL_COPY: Record<FailKind, { title: string; body: string }> = {
   outsider: {
     title: "Not on the roll",
-    body: "This wallet is not on the roll. Midnight rejected the proof. We never saw a name — there was not a valid leaf.",
+    body: "This wallet is not on the roll. Midnight rejected the proof. We never saw a name - there was not a valid leaf.",
   },
   duplicate: {
     title: "Already rang this category",
@@ -26,9 +31,20 @@ export const FAIL_COPY: Record<FailKind, { title: string; body: string }> = {
 export function classifyFail(message: string, persona: string): FailKind {
   const m = message.toLowerCase();
   if (persona === "mehta") return "committee";
-  if (persona === "ravi" || m.includes("not on the roll") || m.includes("checkroot")) return "outsider";
-  if (m.includes("already rang") || m.includes("already rang this category")) return "duplicate";
-  if (m.includes("failed to fetch") || m.includes("network") || m.includes("chain api")) return "network";
+  if (
+    persona === "ravi" ||
+    m.includes("not on the roll") ||
+    m.includes("checkroot")
+  )
+    return "outsider";
+  if (m.includes("already rang") || m.includes("already rang this category"))
+    return "duplicate";
+  if (
+    m.includes("failed to fetch") ||
+    m.includes("network") ||
+    m.includes("chain api")
+  )
+    return "network";
   return "other";
 }
 
@@ -36,5 +52,7 @@ export function successCopy(named: boolean, handle: string, txId: string) {
   if (named) {
     return `Named rail is a choice, not a leak. Handle “${handle}” is on the ledger. tx ${txId}`;
   }
-  return "The roll says you belong. The ledger does not say who you are. " + txId;
+  return (
+    "The roll says you belong. The ledger does not say who you are. " + txId
+  );
 }

@@ -18,7 +18,7 @@ export type Account = {
 
 /**
  * Demo credentials for judges and pilots.
- * Password policy is intentionally simple for the hackathon booth — rotate before any real campus.
+ * Password policy is intentionally simple for the hackathon booth - rotate before any real campus.
  */
 export const ACCOUNTS: Account[] = [
   {
@@ -59,7 +59,7 @@ export const ACCOUNTS: Account[] = [
     role: "student",
     chainPersona: "ravi",
     enrolled: false,
-    title: "Outsider — used to show rejection",
+    title: "Outsider - used to show rejection",
   },
   {
     id: "mehta",
@@ -75,7 +75,9 @@ export const ACCOUNTS: Account[] = [
 
 export function findAccount(email: string, password: string): Account | null {
   const e = email.trim().toLowerCase();
-  const row = ACCOUNTS.find((a) => a.email.toLowerCase() === e && a.password === password);
+  const row = ACCOUNTS.find(
+    (a) => a.email.toLowerCase() === e && a.password === password,
+  );
   return row ?? null;
 }
 

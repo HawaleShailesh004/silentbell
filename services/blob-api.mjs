@@ -10,7 +10,8 @@ fs.mkdirSync(dir, { recursive: true });
 const blobFile = path.join(dir, "blobs.json");
 const caseFile = path.join(dir, "cases.json");
 
-const COMMITTEE_TOKEN = process.env.COMMITTEE_TOKEN?.trim() || "silentbell-committee-pilot-token";
+const COMMITTEE_TOKEN =
+  process.env.COMMITTEE_TOKEN?.trim() || "silentbell-committee-pilot-token";
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 30;
 const hits = new Map();
@@ -35,7 +36,7 @@ function requireCommittee(req, res) {
 }
 
 function rateLimit(req, res) {
-  // Bucket by coarse path only — never persist IP.
+  // Bucket by coarse path only - never persist IP.
   const key = `${req.method}:${req.path}`;
   const now = Date.now();
   const row = hits.get(key) || { t: now, n: 0 };
@@ -64,9 +65,12 @@ app.get("/health", (_req, res) => {
 
 app.post("/v1/blobs", (req, res) => {
   if (!rateLimit(req, res)) return;
-  const { commitment, ciphertext, nonce, ephemeralPk, category, rail, handle } = req.body ?? {};
+  const { commitment, ciphertext, nonce, ephemeralPk, category, rail, handle } =
+    req.body ?? {};
   if (!commitment || !ciphertext || !nonce || !ephemeralPk) {
-    res.status(400).json({ error: "commitment, ciphertext, nonce, ephemeralPk required" });
+    res
+      .status(400)
+      .json({ error: "commitment, ciphertext, nonce, ephemeralPk required" });
     return;
   }
   const db = load(blobFile);
@@ -126,10 +130,20 @@ app.get("/v1/blobs/:commitment", (req, res) => {
 
 app.patch("/v1/cases/:commitment", (req, res) => {
   if (!requireCommittee(req, res)) return;
-  const allowed = new Set(["new", "acknowledged", "escalated", "closed", "malicious"]);
+  const allowed = new Set([
+    "new",
+    "acknowledged",
+    "escalated",
+    "closed",
+    "malicious",
+  ]);
   const status = String(req.body?.status || "");
   if (!allowed.has(status)) {
-    res.status(400).json({ error: "status must be new|acknowledged|escalated|closed|malicious" });
+    res
+      .status(400)
+      .json({
+        error: "status must be new|acknowledged|escalated|closed|malicious",
+      });
     return;
   }
   const db = load(blobFile);
@@ -177,5 +191,7 @@ app.get("/v1/export/:commitment", (req, res) => {
 const port = Number(process.env.PORT || 8788);
 app.listen(port, "127.0.0.1", () => {
   console.log(`Silent Bell blob API on http://127.0.0.1:${port}`);
-  console.log(`Committee token: set COMMITTEE_TOKEN (default pilot token in use)`);
+  console.log(
+    `Committee token: set COMMITTEE_TOKEN (default pilot token in use)`,
+  );
 });

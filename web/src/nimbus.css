@@ -1,6 +1,6 @@
-/* Silent Bell — editorial campus quiet-room
+/* Silent Bell - editorial campus quiet-room
    Newsreader (display) · Plus Jakarta Sans (UI)
-   Cool fog · forest signal · slate ink — not cream/terracotta, not purple */
+   Cool fog · forest signal · slate ink - not cream/terracotta, not purple */
 
 :root {
   --bg: #e9eeea;
@@ -541,7 +541,7 @@ a { color: var(--teal-deep); }
   padding-top: 1.5rem;
 }
 
-/* Solution — hero of the story */
+/* Solution - hero of the story */
 
 .solution-section {
   position: relative;

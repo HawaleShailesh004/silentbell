@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Compile Compact using the Linux toolchain inside Docker.
-# Git-bash on Windows shadows `compact` with compact.exe — do not use the host binary.
+# Git-bash on Windows shadows `compact` with compact.exe - do not use the host binary.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 export MSYS_NO_PATHCONV=1
